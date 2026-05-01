@@ -55,12 +55,19 @@ export default function MenuPage() {
 
   const { categories } = useCategories();
 
+  // ✅ FIXED HERE
   const updateFilter = (key, value) => {
     setSearchParams((prev) => {
       const next = new URLSearchParams(prev);
+
       if (value) next.set(key, value);
       else next.delete(key);
-      next.delete('page');
+
+      // Only reset page if NOT clicking pagination
+      if (key !== 'page') {
+        next.delete('page');
+      }
+
       return next;
     });
   };
@@ -73,7 +80,6 @@ export default function MenuPage() {
       </Helmet>
 
       <div className="pt-20">
-        {/* Page Header */}
         <div className="bg-gradient-to-br from-gray-950 to-gray-900 text-white py-16">
           <div className="page-container">
             <motion.div
@@ -88,9 +94,7 @@ export default function MenuPage() {
         </div>
 
         <div className="page-container py-8">
-          {/* Search + Filter Bar */}
           <div className="flex flex-col md:flex-row gap-4 mb-8">
-            {/* Search */}
             <div className="relative flex-1">
               <Search size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
@@ -107,7 +111,6 @@ export default function MenuPage() {
               )}
             </div>
 
-            {/* Sort */}
             <div className="relative">
               <select
                 value={sort}
@@ -123,9 +126,7 @@ export default function MenuPage() {
           </div>
 
           <div className="flex flex-col md:flex-row gap-8">
-            {/* Sidebar Filters */}
             <aside className="md:w-56 flex-shrink-0">
-              {/* Type Filter */}
               <div className="card p-4 mb-4">
                 <h3 className="font-semibold text-sm text-gray-900 mb-3">Food Type</h3>
                 <div className="space-y-1">
@@ -143,7 +144,6 @@ export default function MenuPage() {
                 </div>
               </div>
 
-              {/* Category Filter */}
               <div className="card p-4">
                 <h3 className="font-semibold text-sm text-gray-900 mb-3">Category</h3>
                 <div className="space-y-1">
@@ -173,34 +173,13 @@ export default function MenuPage() {
               </div>
             </aside>
 
-            {/* Product Grid */}
             <div className="flex-1">
-              {/* Active filters */}
               {(type || categorySlug || debouncedSearch) && (
                 <div className="flex items-center gap-2 mb-4 flex-wrap">
                   <span className="text-sm text-gray-500">Filters:</span>
-                  {debouncedSearch && (
-                    <span className="inline-flex items-center gap-1 bg-brand-50 text-brand-700 text-xs px-3 py-1 rounded-full font-medium">
-                      Search: "{debouncedSearch}"
-                      <button onClick={() => { setSearch(''); setDebouncedSearch(''); }}><X size={12} /></button>
-                    </span>
-                  )}
-                  {type && (
-                    <span className="inline-flex items-center gap-1 bg-brand-50 text-brand-700 text-xs px-3 py-1 rounded-full font-medium">
-                      Type: {type}
-                      <button onClick={() => updateFilter('type', '')}><X size={12} /></button>
-                    </span>
-                  )}
-                  {categorySlug && (
-                    <span className="inline-flex items-center gap-1 bg-brand-50 text-brand-700 text-xs px-3 py-1 rounded-full font-medium">
-                      Category: {categories.find((c) => c.slug === categorySlug)?.name || categorySlug}
-                      <button onClick={() => updateFilter('category', '')}><X size={12} /></button>
-                    </span>
-                  )}
                 </div>
               )}
 
-              {/* Result count */}
               <p className="text-sm text-gray-500 mb-4">
                 {isLoading ? 'Loading...' : `${meta.total} items found`}
               </p>
@@ -211,31 +190,11 @@ export default function MenuPage() {
                     <div key={i} className="loading-skeleton h-72 rounded-2xl" />
                   ))}
                 </div>
-              ) : products.length === 0 ? (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="text-center py-20"
-                >
-                  <div className="text-6xl mb-4">🍽️</div>
-                  <h3 className="font-display font-bold text-xl text-gray-900 mb-2">No dishes found</h3>
-                  <p className="text-gray-500">Try adjusting your filters or search term</p>
-                </motion.div>
               ) : (
-                <motion.div
-                  layout
-                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-                >
+                <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   <AnimatePresence>
                     {products.map((product) => (
-                      <motion.div
-                        key={product._id}
-                        layout
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.95 }}
-                        transition={{ duration: 0.3 }}
-                      >
+                      <motion.div key={product._id} layout>
                         <ProductCard product={product} />
                       </motion.div>
                     ))}
@@ -243,15 +202,14 @@ export default function MenuPage() {
                 </motion.div>
               )}
 
-              {/* Pagination */}
               {meta.pages > 1 && (
                 <div className="flex justify-center items-center gap-2 mt-10">
                   {Array.from({ length: meta.pages }, (_, i) => i + 1).map((p) => (
                     <button
                       key={p}
                       onClick={() => updateFilter('page', p.toString())}
-                      className={`w-9 h-9 rounded-xl text-sm font-medium transition-colors ${
-                        page === p ? 'bg-brand-600 text-white shadow-brand' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
+                      className={`w-9 h-9 rounded-xl text-sm font-medium ${
+                        page === p ? 'bg-brand-600 text-white' : 'bg-white border border-gray-200 text-gray-600'
                       }`}
                     >
                       {p}
@@ -266,3 +224,4 @@ export default function MenuPage() {
     </>
   );
 }
+

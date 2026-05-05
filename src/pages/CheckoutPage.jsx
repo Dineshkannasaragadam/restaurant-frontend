@@ -220,7 +220,7 @@ export default function CheckoutPage() {
                       <input className="input-field" placeholder="6-digit pincode" maxLength={6} value={address.pincode} onChange={(e) => setAddress((a) => ({ ...a, pincode: e.target.value }))} />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-gray-700 mb-1">Landmark</label>
+                      <label className="block text-xs font-medium text-gray-700 mb-1">Landmark *</label>
                       <input className="input-field" placeholder="Nearby landmark (optional)" value={address.landmark} onChange={(e) => setAddress((a) => ({ ...a, landmark: e.target.value }))} />
                     </div>
                   </div>

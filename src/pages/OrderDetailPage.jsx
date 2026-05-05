@@ -145,10 +145,11 @@ export default function OrderDetailPage() {
           {/* Delivery Address */}
           {order.deliveryAddress && (
             <div className="card p-5 mb-4">
-              <h3 className="font-semibold text-gray-900 mb-2 flex items-center gap-2"><MapPin size={16} className="text-brand-600" /> Delivery Address</h3>
+              <h3 className="font-semibold text-gray-900 mb-2 flex items-center gap-2"><MapPin size={16} className="text-brand-600" /> Delivery Address And Order Details</h3>
               <p className="text-sm text-gray-600">
                 {order.deliveryAddress.street}, {order.deliveryAddress.city}, {order.deliveryAddress.state} — {order.deliveryAddress.pincode}
                 <p>special instructions : {order.specialInstructions}</p>
+                <p>order type : {order.deliveryType}</p>
               </p>
             </div>
           )}

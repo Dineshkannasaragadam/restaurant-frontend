@@ -148,6 +148,7 @@ export default function OrderDetailPage() {
               <h3 className="font-semibold text-gray-900 mb-2 flex items-center gap-2"><MapPin size={16} className="text-brand-600" /> Delivery Address</h3>
               <p className="text-sm text-gray-600">
                 {order.deliveryAddress.street}, {order.deliveryAddress.city}, {order.deliveryAddress.state} — {order.deliveryAddress.pincode}
+                <p>special instructions : {order.specialInstructions}</p>
               </p>
             </div>
           )}

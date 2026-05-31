@@ -62,7 +62,7 @@ export default function ProductPage() {
   return (
     <>
       <Helmet>
-        <title>{product.name} — Savori</title>
+        <title>{product.name} — Athidhi</title>
         <meta name="description" content={product.description} />
       </Helmet>
 

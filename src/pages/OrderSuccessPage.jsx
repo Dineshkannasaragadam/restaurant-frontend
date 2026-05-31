@@ -18,7 +18,7 @@ export default function OrderSuccessPage() {
   return (
     <>
       <Helmet>
-        <title>Order Placed Successfully — Savori</title>
+        <title>Order Placed Successfully — Athidhi</title>
       </Helmet>
 
       <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">

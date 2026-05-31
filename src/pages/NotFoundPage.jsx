@@ -7,7 +7,7 @@ export default function NotFoundPage() {
   return (
     <>
       <Helmet>
-        <title>Page Not Found — Savori</title>
+        <title>Page Not Found — Athidhi</title>
       </Helmet>
 
       <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">

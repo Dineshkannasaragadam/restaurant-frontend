@@ -49,7 +49,7 @@ export default function OrderDetailPage() {
 
   return (
     <>
-      <Helmet><title>Order {order.orderNumber} — Savori</title></Helmet>
+      <Helmet><title>Order {order.orderNumber} — Athidhi</title></Helmet>
       <div className="pt-24 pb-16">
         <div className="page-container max-w-3xl">
           <div className="mb-6">
